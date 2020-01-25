@@ -40,8 +40,8 @@ def ChampInt(Entry):            #vérifie si l'entier dans le champs est entre 0
     return 1
         
 
-def contrl(liste,champs):
-    for i in range(4):
+def contrl(liste,champs):        # fonction qui évalue la position des valeurs, colorie en rouge le champs si la valeur n'est 
+    for i in range(4):           # pas au bon endroit
         for j in range(4):
             if(ChampInt(champs[i][j])):
                 grilleLi[i][j]=int(grille[i][j].get())
