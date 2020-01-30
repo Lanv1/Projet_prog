@@ -1,0 +1,10 @@
+Utilisation de pygame a la place de tkinter, car tkinter=moche
+de plus pygame est vraiment conçu pour faire des jeux alors que tkinter est bien pour faire des interfaces.
+
+
+Pour la grille, on utilise la methode pygame.draw.rect qui permet de dessiner des rectangles, on créer une marge entre chaque rectangles pour avoir l'aspect d'une grille.
+
+La grille est donc séparée de l'interface,pour passer des coordonées de la grille a l'interface, on multiplie par (cot*mar).On fait l'opération inverse pour passer des coordonées de la fenetre a la grille. De plus, les coordonées sont inversées lorsque l'on passe de la grille a l'interface et vice-versa: x devient y et y devient x.
+
+
+
