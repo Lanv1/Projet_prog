@@ -70,20 +70,16 @@ def changer_num(X, Y):  # commande pour ecrire un chiffre cliquée
             print("4 clické")
 
 
-def click_sur_grille(grille):  # Sert a avoir les coordonnees du click sur la grille
-    if pygame.mouse.get_pressed()[0]:  # renvoie 1 si le le click gauche est activé
-        click = pygame.mouse.get_pos()  # on stock les coordonées du click
-        if (screen.get_at(click) == color or screen.get_at(
-                click) == colorclick):  # ne fait quelque chose que si l'on a cliqué sur du blanc
-            # global x
-            # global y
-            x = math.floor(((click[1] / (
-                        cot + mar)) - 2))  # les coordonées sont inversées quand on passe de la grille a l'interface
-            y = math.floor(((click[0] / (cot + mar)) - 4))
-            pygame.draw.rect(screen, colorclick, pygame.Rect(y * (cot + mar) + 390, x * (cot + mar) + 200, cot, cot))
-            change_couleur_case_selec(x, y)
-            co = (x, y)  # renvoie les coordonées a la place de les passer en variable globale
-            return co
+def click_sur_grille(grille,grille_rectangles):  # Sert a avoir les coordonnees du click sur la grille
+    for i in range(4):                           # on cherche sur quel rectangle on a cliqué 
+        for j in range(4):
+            if(grille_rectangles[i][j].collidepoint(event.pos)):    #rectangle trouvé, on renvoie ses coordonées dans la grille
+                x = math.floor(((event.pos[1] / (  cot + mar)) - 2))  # les coordonées sont inversées quand on passe de la grille a l'interface
+                y = math.floor(((event.pos[0] / (cot + mar)) - 4))
+                pygame.draw.rect(screen, colorclick, pygame.Rect(y * (cot + mar) + 390, x * (cot + mar) + 200, cot, cot))
+                change_couleur_case_selec(x, y)
+                co = (x, y)  # renvoie les coordonées a la place de les passer en variable globale
+                return co
     return 0  # change de couleur après click ###### A CHANGER POUR QUE CA SOIT QUE PENDANT LE CLICK################
 
 
@@ -95,7 +91,10 @@ screen = pygame.display.set_mode(WINDOW_SIZE)
 pygame.display.set_caption("Futoshiki")  # titre de la fenetre
 
 grille = [[0] * 4 for i in range(4)]  # grille ou on appliquera les algo
-# la grille est initialisée a 0 partout
+                                        # la grille est initialisée a 0 partout
+grille_rectangles = [[0] * 4 for i in range(4)] #grille interface (correspond aux rectangles qui sont des zones cliquables)
+
+
 
 mar = 30  # marge des rectangles
 cot = 60  # longueur du coté
@@ -105,6 +104,7 @@ pygame.display.set_icon(Icone)  # mettre l'icone
 running = True  # Vérifie si la fenetre doit rester ouverte
 screen.fill((0, 105, 102))  # met le fond en vert
 color = (255, 255, 255)  # couleur que l'on utilise pour les rectangles
+noir = (0, 0, 0)
 colorclick = (255, 255, 35)  # couleur quand on click sur un rectangle
 imagetitre = pygame.image.load("assets/titreFutoshiki.png").convert_alpha()  # Lecture du titre Futoshiki
 difficulte = 4  # taille de grille
@@ -130,8 +130,9 @@ P4 = pygame.image.load("assets/P4.png").convert_alpha()
 
 for x in range(difficulte):
     for y in range(difficulte):
-        pygame.draw.rect(screen, color, pygame.Rect(x * (cot + mar) + 390, y * (cot + mar) + 200, cot,
-                                                    cot))  # dessine la "grille de dimension n"
+        rect=pygame.draw.rect(screen, color, pygame.Rect(x * (cot + mar) + 390, y * (cot + mar) + 200, cot,cot))  # dessine la "grille de dimension n"
+        grille_rectangles[x][y]=rect
+                                                    
 clock=pygame.time.Clock()
 # x = -1 #coordonneé de la grille x de la dernière case cliquée
 # y= -1  #coordonneé de la grille y de la dernière case cliquée
@@ -151,11 +152,10 @@ while running:  # Tant que la fentetre est en cours
         screen.blit(G4, (695, 575))
         initial=False
 
-    if (click_sur_grille(grille)):
-        X = click_sur_grille(grille)[0]
-        Y = click_sur_grille(grille)[1]
-
     if event.type == MOUSEBUTTONDOWN:
+        if(click_sur_grille(grille,grille_rectangles)):
+            X=click_sur_grille(grille,grille_rectangles)[0]
+            Y=click_sur_grille(grille,grille_rectangles)[1]
         changer_num(X, Y)
 
     pygame.display.flip()
