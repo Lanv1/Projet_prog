@@ -16,6 +16,18 @@ from pygame.locals import *
 
 #############################    FONCTIONS    ############################
 
+def change_couleur_case_selec(x,y):
+    if event.type == MOUSEBUTTONDOWN:  # a toi de voir si tu veux ne gérer que des clics particuliers
+        for a in range(difficulte):  # Remet toutes les cases vide en blanc
+            for b in range(difficulte):
+                if grille[a][b] == 0:
+                    pygame.draw.rect(screen, color, pygame.Rect(b * (cot + mar) + 390, a * (cot + mar) +
+                                                                200, cot, cot))
+        if grille[x][y] == 0:
+            pygame.draw.rect(screen, colorclick,
+                             pygame.Rect(y * (cot + mar) + 390, x * (cot + mar) + 200, cot, cot))
+            # change de couleur après click
+
 def changer_num(X,Y): #commande pour ecrire un chiffre cliquée
 
     if clickable_area_G1.collidepoint(event.pos):
@@ -65,6 +77,7 @@ def click_sur_grille(grille):  #Sert a avoir les coordonnees du click sur la gri
             x = math.floor(((click[1]/ (cot + mar))-2))  # les coordonées sont inversées quand on passe de la grille a l'interface
             y = math.floor(((click[0]/ (cot + mar))-4))
             pygame.draw.rect(screen, colorclick, pygame.Rect(y * (cot + mar) + 390, x * (cot + mar) + 200, cot,cot))
+            change_couleur_case_selec(x,y)
             co=(x,y)                #renvoie les coordonées a la place de les passer en variable globale
             return co       
     return 0        # change de couleur après click ###### A CHANGER POUR QUE CA SOIT QUE PENDANT LE CLICK################
