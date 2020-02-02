@@ -135,26 +135,26 @@ for x in range(difficulte):
 clock=pygame.time.Clock()
 # x = -1 #coordonneé de la grille x de la dernière case cliquée
 # y= -1  #coordonneé de la grille y de la dernière case cliquée
-clicked = False
+initial = True
 #############################    MAIN    ############################
 
 while running:  # Tant que la fentetre est en cours
 
-    screen.blit(imagetitre, (290, 20))  # Affichage du titre Futoshiki
-
-    screen.blit(G1, (320, 575))  # Affichage des grands numéros cliquable
-    screen.blit(G2, (445, 575))
-    screen.blit(G3, (570, 575))
-    screen.blit(G4, (695, 575))
-
     for event in pygame.event.get():  # Pour chaque evenement
         if event.type == pygame.QUIT:
             running = False
+    if initial:
+        screen.blit(imagetitre, (290, 20))  # Affichage du titre Futoshiki
+        screen.blit(G1, (320, 575))  # Affichage des grands numéros cliquable
+        screen.blit(G2, (445, 575))
+        screen.blit(G3, (570, 575))
+        screen.blit(G4, (695, 575))
+        initial=False
 
-    if (click_sur_grille(grille) and not clicked):
+    if (click_sur_grille(grille)):
         X = click_sur_grille(grille)[0]
         Y = click_sur_grille(grille)[1]
-        clicked=True
+
     if event.type == MOUSEBUTTONDOWN:
         changer_num(X, Y)
 
