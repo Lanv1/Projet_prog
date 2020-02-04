@@ -137,10 +137,11 @@ clock=pygame.time.Clock()
 # x = -1 #coordonneé de la grille x de la dernière case cliquée
 # y= -1  #coordonneé de la grille y de la dernière case cliquée
 initial = True
+clicked= True
 #############################    MAIN    ############################
 
 while running:  # Tant que la fentetre est en cours
-
+    
     for event in pygame.event.get():  # Pour chaque evenement
         if event.type == pygame.QUIT:
             running = False
@@ -152,14 +153,17 @@ while running:  # Tant que la fentetre est en cours
         screen.blit(G4, (695, 575))
         initial=False
 
-    if event.type == MOUSEBUTTONDOWN:
+    if (event.type == MOUSEBUTTONDOWN and clicked):
+        clicked=False
         if(click_sur_grille(grille,grille_rectangles)):
             X=click_sur_grille(grille,grille_rectangles)[0]
             Y=click_sur_grille(grille,grille_rectangles)[1]
         changer_num(X, Y)
-
+    if(event.type == MOUSEBUTTONUP):    #besoin de cette condition pour triter les clicks 1 a 1
+        clicked=True                    
+    
     pygame.display.flip()
-    clicked=False
+    
 
 for element in grille:  # Affichage console de la grille
     print(element)
